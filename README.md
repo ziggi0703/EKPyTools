@@ -5,6 +5,6 @@ This package is a collection of tools which are helpful for the work in data ana
 
 ## Installation:
 
-```pip install numpy```
+You need to install numpy before you can install EKPyTools
 
-```pip install EKPyTools```
+
