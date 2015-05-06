@@ -2,8 +2,9 @@
 __author__ = 'Michael Ziegler'
 
 
-from root_numpy import tree2array, arry2tree
+from root_numpy import tree2array, array2tree
 import pandas as pd
+import sys
 
 
 def convert_ttree_to_data_frame(tree, variables=None, **kwargs):
@@ -30,20 +31,27 @@ def convert_ttree_to_data_frame(tree, variables=None, **kwargs):
     return data_frame
 
 
-def convert_data_frame_to_ttree(data_frame, columns=None, **kwargs):
+def convert_data_frame_to_ttree(data_frame, tree_name, columns=None):
     """
     Convert a pandas.DataFrame to a ROOT.TTree
 
     :param data_frame: data that is written to a TTree
     :type data_frame: pandas.DataFrame
 
+    :param tree_name: name of the TTree
+    :type tree_name: str
+
     :param columns: columns that are written to the TTree. If None (default), all columns in data_frame
         are written to the TTree
     :type columns: list, None
 
-    :param kwargs: More keyword arguments
-    :type kwargs:
-
     :return: converted TTree
     :rtype: ROOT.TTree
     """
+    if columns is not None:
+        df_data = data_frame[columns]
+    else:
+        df_data = data_frame
+    array = df_data.to_records(index=False)
+
+    return array2tree(array, name=tree_name)

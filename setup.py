@@ -23,4 +23,4 @@ setup(name='EKPyTools',
       install_requires= install_reqs,
       test_suite='tests',
       tests_require=['pytest', 'pytest-cov']
-)
+      )
