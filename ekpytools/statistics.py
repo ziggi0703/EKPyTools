@@ -56,7 +56,7 @@ def weighted_std(series, weights=None):
     return np.sqrt((s2 / s0 - s1**2/s0**2))
 
 
-def empirical_cdf(frame, column, weight_column=None):
+def ecdf_of_column(frame, column, weight_column=None):
     """
     Calculate the empirical CDF of the values of column.
 
@@ -82,3 +82,35 @@ def empirical_cdf(frame, column, weight_column=None):
     rv.index.name = None
 
     return rv
+
+
+def ecdf_of_series(self, weights=None):
+    """
+    Calculate the empirical CDF of the values.
+
+    :param self:
+    :type self: pandas.Series
+
+    :param weights: (optional) events weights
+    :type weights: pandas.Series
+
+    :return: CDF
+    :rtype: pandas.Series
+    """
+    if weights is None:
+        counts = self.value_counts(normalize=True)
+    else:
+        if len(weights) != len(self):
+            raise ValueError('series and weights must have same length.')
+
+        frame = pd.DataFrame(dict(values=self, weights=weights))
+
+        counts = frame.groupby('values')['weights'].sum()/frame['weights'].sum()
+
+    rv = counts.sort_index().cumsum()
+    rv.name = 'CDF_{}'.format(self.name) if self.name is not None else None
+    rv.index.name = None
+
+    return rv
+
+
