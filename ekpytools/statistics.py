@@ -54,3 +54,31 @@ def weighted_std(series, weights=None):
     s2 = np.sum(weights * series * series)
 
     return np.sqrt((s2 / s0 - s1**2/s0**2))
+
+
+def empirical_cdf(frame, column, weight_column=None):
+    """
+    Calculate the empirical CDF of the values of column.
+
+    :param frame: data
+    :type frame: pandas.DataFrame
+
+    :param column: Column name in frame
+    :type column: str
+
+    :param weight_column: (optional) use values of the column as weights
+    :type weight_column: str
+
+    :return: Empirical CDF
+    :rtype:
+    """
+    if weight_column is None:
+        counts = frame[column].value_counts(normalize=True)
+    else:
+        counts = frame.groupby(column)[weight_column].sum()/frame[weight_column].sum()
+    rv = counts.sort_index().cumsum()
+
+    rv.name = 'CDF_{}'.format(column)
+    rv.index.name = None
+
+    return rv
