@@ -16,7 +16,7 @@ def get_install_requirements(path):
 install_reqs = get_install_requirements('requirements.txt')
 
 setup(name='EKPyTools',
-      version='0.1.2',
+      version='0.1.3',
       description='Some helpers for the work at the EKP',
       author='Michael Ziegler',
       packages=['ekpytools', 'ekpytools.colors'],
