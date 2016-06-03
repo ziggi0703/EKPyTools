@@ -70,7 +70,7 @@ def ecdf_of_column(frame, column, weight_column=None):
     :type weight_column: str
 
     :return: Empirical CDF
-    :rtype:
+    :rtype: pandas.Series
     """
     if weight_column is None:
         counts = frame[column].value_counts(normalize=True)
