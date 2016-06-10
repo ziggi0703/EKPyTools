@@ -2,3 +2,4 @@ numpy>=1.8.1
 root_numpy>=3.4.0
 pandas>=0.14.1
 matplotlib
+click
