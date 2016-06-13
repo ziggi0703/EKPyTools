@@ -12,16 +12,15 @@ def ekpy():
 
 
 @ekpy.command()
-@click.argument('sources', type=click.File(), nargs=1, help="File with all (ssh-)paths to the files to be copied: "
-                                                            "'user@login.cc.kek.jp:/path/to/file.root' \n "
-                                                            "Note: ssh forwarding must be enabled.")
+@click.argument('file-sources', type=click.File(), nargs=1)
 @click.option('--dest', '-d', type=str, required=True, help='Target directory')
 @click.option('--processes', '-p', default=10, help='Number of parallel processes.')
-def par_sync(sources, dest, processes):
+def par_sync(file_sources, dest, processes):
     """
     Parallel rsync to copy large amount of data
+
     """
-    files = [source.strip() for source in sources.read().split('\n')]
+    files = [source.strip() for source in file_sources.read().split('\n')]
 
     print('Copy {} files'.format(len(files)))
 
